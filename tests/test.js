@@ -9,7 +9,7 @@ const forcePromiseReject = () => {
 };
 
 describe("users", () => {
-  describe("setup", () => {
+  describe("tup", () => {
     it("able to connect to database", () =>
       knex
         .raw("select 1+1 as result")
@@ -100,6 +100,7 @@ describe("channels", () => {
 
     it("creates a channel", () =>
       models.channels.create(params).then((channel) => {
+        console.log("test file channel", params);
         expect(channel).to.include({ name: params.name });
         expect(channel.id).to.be.a("number");
       }));
@@ -130,11 +131,12 @@ describe("channels", () => {
     before(() => Promise.all(channels.map(models.channels.create)));
     after(() => knex("channels").del());
 
-    it("lists all channels", () =>
-      models.channels.list().then((resp) => {
+    it("lists all channels", () => {
+      return models.channels.list().then((resp) => {
         expect(channelNames).to.include(resp[0].name);
         expect(channelNames).to.include(resp[1].name);
-      }));
+      });
+    });
 
     it("returns serializable objects", () =>
       models.channels.list().then((resp) => {
@@ -145,7 +147,7 @@ describe("channels", () => {
   });
 });
 
-describe("channel_messages", () => {
+xdescribe("channel_messages", () => {
   let fromId;
   let channelId;
   let otherChannelId;
@@ -240,7 +242,7 @@ describe("channel_messages", () => {
   });
 });
 
-describe("user_messages", () => {
+xdescribe("user_messages", () => {
   let fromId;
   let toId;
   let otherToId;

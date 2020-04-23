@@ -1,5 +1,7 @@
 module.exports = (knex, User) => {
   return () => {
-    return Promise.resolve([]); // fix me!
+    return knex("users").then((users) => {
+      return users.map((element) => new User(element));
+    });
   };
 };
